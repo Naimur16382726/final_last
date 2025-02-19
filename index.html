@@ -3,169 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Mimi App - Ad Reward System</title>
+    <title>Show Ads Example</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to right, #1e1e1e, #292929);
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
+            font-family: Arial, sans-serif;
             text-align: center;
-            background: #2a2a2a;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
-            width: 350px;
+            background-color: #222;
+            color: white;
+            padding: 50px;
         }
-        .container h1 {
-            font-size: 22px;
-            color: #ffcc00;
-            margin-bottom: 15px;
-        }
-        .developer {
-            font-size: 13px;
-            background-color: #ffcc00;
-            padding: 6px 12px;
-            border-radius: 6px;
-            display: inline-block;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .stats p {
-            font-size: 15px;
-            margin: 7px 0;
-        }
-        .progress-circle {
-            width: 90px;
-            height: 90px;
-            border: 5px solid #ffcc00;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 15px auto;
+        button {
+            padding: 10px 20px;
             font-size: 18px;
             font-weight: bold;
-            color: #ffcc00;
-        }
-        .buttons button {
-            width: 95%;
-            margin: 6px 0;
-            padding: 12px;
-            font-size: 15px;
-            border: none;
-            border-radius: 6px;
             color: white;
-            font-weight: bold;
+            background-color: #ff6600;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            transition: 0.3s;
+            margin-top: 20px;
         }
-        .watch-ad { background: #ff6600; }
-        .watch-ad:hover { background: #e65c00; }
-        .auto-ad { background: #00cc66; }
-        .auto-ad:hover { background: #00994d; }
-        .stop-auto { background: #cc0000; }
-        .stop-auto:hover { background: #990000; }
-        .withdraw { background: #0080ff; }
-        .withdraw:hover { background: #0066cc; }
-        #monetag-ad { margin-top: 20px; text-align: center; }
+        button:hover {
+            background-color: #e65c00;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Telegram Mimi Ad System</h1>
-        <div class="developer" onclick="window.location.href='https://t.me/YOUR_TELEGRAM'">Developer: @Naimur</div>
 
-        <!-- User Info -->
-        <div class="stats">
-            <p>👤 Username: <span id="user-name">@exampleUser</span></p>
-            <p>🎥 Watched Ads: <span id="watched-ads">0</span></p>
-            <p>💰 Earned Points: <span id="earned-points">0</span></p>
-        </div>
+    <h1>Click the Button to Show Ads</h1>
+    <button onclick="loadAds()">Show Ads</button>
 
-        <!-- Progress Circle -->
-        <div class="progress-circle">
-            <span id="ads-progress">0%</span>
-        </div>
-
-        <!-- Buttons -->
-        <div class="buttons">
-            <button class="watch-ad" onclick="watchAd()">Watch Ad</button>
-            <button class="auto-ad" onclick="startAutoAds()">Auto Ads</button>
-            <button class="stop-auto" onclick="stopAutoAds()">Stop Auto Ads</button>
-            <button class="withdraw" onclick="showWithdrawForm()">Withdraw</button>
-        </div>
-
-        <!-- Monetag Ads Section -->
-        <div id="monetag-ad"></div>
-
-    </div>
+    <div id="ads-container"></div>
 
     <script>
-        const MIN_WITHDRAW_POINTS = 50;
-        const BOT_TOKEN = "8163930836:AAFjgaDxuhcra-pIuf7KWHiVyW3fhtO3Uhs";
-        const ADMIN_USER_ID = "6102113957";
-        let watchedAdsCount = 0;
-        let earnedPoints = 0;
-        let autoAdInterval;
+        function loadAds() {
+            var script = document.createElement("script");
+            script.src = "//whephiwums.com/vignette.min.js";
+            script.setAttribute("data-zone", "8975809");
+            script.setAttribute("data-sdk", "show_8975809");
+            document.getElementById("ads-container").appendChild(script);
 
-        // Simulate user name
-        document.getElementById("user-name").textContent = "@exampleUser"; 
-
-        // Load saved data
-        if (localStorage.getItem('watchedAdsCount')) {
-            watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount'));
-            earnedPoints = parseFloat(localStorage.getItem('earnedPoints'));
-            document.getElementById('watched-ads').textContent = watchedAdsCount;
-            document.getElementById('earned-points').textContent = earnedPoints.toFixed(2);
+            script.onload = function () {
+                alert("Ads Loaded! Wait for it to appear.");
+            };
         }
-
-        // Watch Ad Function
-        function watchAd() {
-            if (typeof show_8975809 === 'function') {
-                show_8975809().then(() => {
-                    watchedAdsCount++;
-                    earnedPoints += 10;
-                    document.getElementById('watched-ads').textContent = watchedAdsCount;
-                    document.getElementById('earned-points').textContent = earnedPoints.toFixed(2);
-                    localStorage.setItem('watchedAdsCount', watchedAdsCount);
-                    localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
-                    updateProgressCircle();
-                });
-            }
-        }
-
-        // Update Progress Circle
-        function updateProgressCircle() {
-            let percentage = (watchedAdsCount / 10) * 100;
-            document.getElementById('ads-progress').textContent = `${percentage}%`;
-        }
-
-        // Auto Ads Start
-        function startAutoAds() {
-            autoAdInterval = setInterval(() => {
-                watchAd();
-                loadMonetagAd();
-            }, 5000);
-        }
-
-        // Stop Auto Ads
-        function stopAutoAds() {
-            clearInterval(autoAdInterval);
-        }
-
-        // Load Monetag Ads
-        function loadMonetagAd() {
-            document.getElementById('monetag-ad').innerHTML = `<script src='//whephiwums.com/vignette.min.js' data-zone='8975809' data-sdk='show_8975809'></script>`;
-        }
-</script>
+    </script>
 
 </body>
 </html>
