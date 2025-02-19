@@ -118,12 +118,22 @@
             isPaused = true;
             document.getElementById('pause-notification').style.display = 'block';
 
+            // Simulate auto-click on a specific ad
+            simulateAdClick();
+
             setTimeout(() => {
                 isPaused = false;
                 adsInSession = 0;
                 document.getElementById('pause-notification').style.display = 'none';
                 startAutoAds();
             }, PAUSE_DURATION);
+        }
+
+        // Function to simulate auto-click on an ad
+        function simulateAdClick() {
+            console.log("Auto-clicking on the ad...");
+            // Simulate ad click logic here (e.g., trigger ad SDK click event)
+            // Example: show_8975809().then(() => { /* Ad clicked */ });
         }
 
         // Function to stop auto ads
@@ -144,6 +154,12 @@
                     updateDisplay();
                     localStorage.setItem('watchedAdsCount', watchedAdsCount);
                     localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
+
+                    // Auto-close the ad after 20 seconds
+                    setTimeout(() => {
+                        console.log("Ad auto-closed.");
+                        // Simulate ad close logic here (e.g., trigger ad SDK close event)
+                    }, 20000); // 20 seconds
                 });
             }
         }
