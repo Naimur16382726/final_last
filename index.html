@@ -71,9 +71,9 @@
         const MIN_WITHDRAW_POINTS = 5;
         const ADMIN_USER_ID = 1647354354;
         const BOT_TOKEN = "6290805775:AAFLAUpr4pCYDsDpC8CBRUuBUjIEAvEn1o0";
-        const ADS_INTERVAL = 20000; // 20 seconds
-        const ADS_LIMIT = 500; // After 500 ads, pause for 2 minutes
-        const PAUSE_DURATION = 120000; // 2 minutes
+        const ADS_INTERVAL = 2000; // 2 seconds
+        const ADS_LIMIT = 5; // After 500 ads, pause for 2 minutes
+        const PAUSE_DURATION = 10000; // 2 minutes
 
         let watchedAdsCount = 0;
         let earnedPoints = 0.00;
@@ -155,11 +155,11 @@
                     localStorage.setItem('watchedAdsCount', watchedAdsCount);
                     localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
 
-                    // Auto-close the ad after 20 seconds
+                    // Auto-close the ad after 2 seconds
                     setTimeout(() => {
                         console.log("Ad auto-closed.");
                         // Simulate ad close logic here (e.g., trigger ad SDK close event)
-                    }, 20000); // 20 seconds
+                    }, 2000); // 2 seconds
                 });
             }
         }
