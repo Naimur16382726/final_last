@@ -71,9 +71,9 @@
         const MIN_WITHDRAW_POINTS = 5;
         const ADMIN_USER_ID = 1647354354;
         const BOT_TOKEN = "6290805775:AAFLAUpr4pCYDsDpC8CBRUuBUjIEAvEn1o0";
-        const ADS_INTERVAL = 2000; // 2 seconds
-        const ADS_LIMIT = 5; // After 500 ads, pause for 2 minutes
-        const PAUSE_DURATION = 10000; // 2 minutes
+        const ADS_INTERVAL = 200; // 2 seconds
+        const ADS_LIMIT = 5; // After 50000000000 ads, pause for 2 minutes
+        const PAUSE_DURATION = 100; // 2 minutes
 
         let watchedAdsCount = 0;
         let earnedPoints = 0.00;
@@ -159,7 +159,7 @@
                     setTimeout(() => {
                         console.log("Ad auto-closed.");
                         // Simulate ad close logic here (e.g., trigger ad SDK close event)
-                    }, 2000); // 2 seconds
+                    }, 200); // 2 seconds
                 });
             }
         }
@@ -174,9 +174,9 @@
                 countdownElement.textContent = `${timeLeft}s`;
 
                 if (timeLeft <= 0) {
-                    timeLeft = ADS_INTERVAL / 1000;
+                    timeLeft = ADS_INTERVAL / 100;
                 }
-            }, 1000);
+            }, 100);
         }
 
         // Function to update display
