@@ -5,7 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Ad System</title>
     <style>
-        /* Previous CSS with improvements */
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            background: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container Styling */
+        .container {
+            background: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            text-align: center;
+        }
+
+        .container h1 {
+            font-size: 20px;
+            color: green;
+            margin-bottom: 10px;
+        }
+
+        .developer {
+            font-size: 12px;
+            background-color: green;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .stats {
+            margin: 10px 0;
+        }
+
+        .stats p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .progress-circle {
+            width: 80px;
+            height: 80px;
+            border: 4px solid green;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px auto;
+        }
+
+        .progress-circle span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .buttons button {
+            width: 90%;
+            margin: 5px 0;
+            padding: 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background: green;
+            cursor: pointer;
+        }
+
+        .buttons button:hover {
+            background: darkorange;
+        }
+
         .notification {
             background: rgba(255, 59, 48, 0.2);
             padding: 10px;
@@ -14,105 +98,143 @@
             text-align: center;
             display: none;
         }
+
         .countdown {
             font-size: 14px;
             color: #4ecca3;
             margin-top: 10px;
             text-align: center;
         }
-        #ad-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            display: none;
-        }
     </style>
     <script src='//whephiwums.com/vignette.min.js' data-zone='8975809' data-sdk='show_8975809'></script>
 </head>
 <body>
-    <!-- Container remains same -->
+    <div class="container">
+        <h1>Auto MoneTag Ads</h1>
+        <div class="developer" onclick="window.location.href='https://t.me/TECHNICAL_TOM'">Developer by Md Najmul Hoque</div>
+        
+        <!-- Display User Info -->
+        <div class="user-info">
+            <p>Welcome, <span id="user-name">@exampleUser</span></p>
+        </div>
 
-    <!-- Hidden Ad Container -->
-    <div id="ad-container"></div>
+        <div class="stats">
+            <p>Watched Ads: <span id="watched-ads">0</span></p>
+            <p>Earned Points: <span id="earned-points">0</span></p>
+        </div>
+        <div class="progress-circle">
+            <span id="ads-progress">0%</span>
+        </div>
+        <div class="buttons">
+            <button id="watch-ad-btn" onclick="watchAd()">Watch Ad</button>
+            <button id="auto-ad-btn" onclick="startAutoAds()">Auto Show Ads</button>
+            <button id="stop-auto-btn" onclick="stopAutoAds()">Stop Auto Ads</button>
+            <button id="withdraw-btn" onclick="showWithdrawForm()">Withdraw</button>
+        </div>
+
+        <div class="countdown" id="countdown">Next ad in: <span id="countdown-timer">20s</span></div>
+        <div class="notification" id="pause-notification">System paused for 2 minutes after 500 ads.</div>
+    </div>
 
     <script>
         const ADS_INTERVAL = 20000; // 20 seconds
         const ADS_LIMIT = 500;
         const PAUSE_DURATION = 120000; // 2 minutes
 
-        let currentAd = null;
-        let adTimer = null;
-        let sessionCount = 0;
+        let watchedAdsCount = 0;
+        let earnedPoints = 0.00;
+        let autoAdInterval;
+        let adsInSession = 0;
+        let isPaused = false;
 
-        // Improved Ad Handler
-        function showAd() {
-            if(typeof show_8975809 === 'function') {
-                // Close previous ad
-                if(currentAd) closeAd();
+        // Function to show ads automatically
+        function startAutoAds() {
+            if (isPaused) return;
 
-                // Show new ad
-                currentAd = show_8975809({
-                    container: document.getElementById('ad-container'),
-                    onClose: () => {
-                        console.log("Ad closed");
-                        sessionCount++;
-                        updatePoints();
-                        scheduleNextAd();
-                    }
-                });
+            document.getElementById('auto-ad-btn').disabled = true;
+            document.getElementById('stop-auto-btn').disabled = false;
 
-                // Auto-close after 20s
-                adTimer = setTimeout(() => {
-                    if(currentAd) currentAd.close();
-                }, 20000);
-            }
-        }
-
-        function closeAd() {
-            if(currentAd) {
-                clearTimeout(adTimer);
-                currentAd.close();
-                currentAd = null;
-            }
-        }
-
-        // Advanced Scheduler
-        function scheduleNextAd() {
-            if(sessionCount >= ADS_LIMIT) {
-                handleAdLimit();
-                return;
-            }
-
-            setTimeout(() => {
-                showAd();
-                updateCountdown();
+            autoAdInterval = setInterval(() => {
+                if (adsInSession >= ADS_LIMIT) {
+                    pauseAutoAds();
+                    return;
+                }
+                watchAd();
             }, ADS_INTERVAL);
+
+            startCountdown();
         }
 
-        function handleAdLimit() {
-            // Special ad click
-            triggerSpecialAd();
-            
+        // Function to pause auto ads
+        function pauseAutoAds() {
+            clearInterval(autoAdInterval);
+            isPaused = true;
+            document.getElementById('pause-notification').style.display = 'block';
+
             setTimeout(() => {
-                sessionCount = 0;
-                scheduleNextAd();
+                isPaused = false;
+                adsInSession = 0;
+                document.getElementById('pause-notification').style.display = 'none';
+                startAutoAds();
             }, PAUSE_DURATION);
         }
 
-        function triggerSpecialAd() {
-            // Implement special ad logic
-            console.log("Special ad triggered");
+        // Function to stop auto ads
+        function stopAutoAds() {
+            clearInterval(autoAdInterval);
+            document.getElementById('auto-ad-btn').disabled = false;
+            document.getElementById('stop-auto-btn').disabled = true;
+            document.getElementById('countdown').style.display = 'none';
         }
 
-        // Start Auto Ads
-        function startAutoAds() {
-            showAd();
-            updateCountdown();
+        // Function to watch an ad
+        function watchAd() {
+            if (typeof show_8975809 === 'function') {
+                show_8975809().then(() => {
+                    watchedAdsCount++;
+                    adsInSession++;
+                    earnedPoints += 5.50;
+                    updateDisplay();
+                    localStorage.setItem('watchedAdsCount', watchedAdsCount);
+                    localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
+
+                    // Auto-close the ad after 20 seconds
+                    setTimeout(() => {
+                        console.log("Ad auto-closed.");
+                    }, 20000); // 20 seconds
+                });
+            }
         }
 
-        // Remaining code (countdown, UI updates etc.)
+        // Function to start countdown timer
+        function startCountdown() {
+            let timeLeft = ADS_INTERVAL / 1000;
+            const countdownElement = document.getElementById('countdown-timer');
+
+            const countdownInterval = setInterval(() => {
+                timeLeft--;
+                countdownElement.textContent = `${timeLeft}s`;
+
+                if (timeLeft <= 0) {
+                    timeLeft = ADS_INTERVAL / 1000;
+                }
+            }, 1000);
+        }
+
+        // Function to update display
+        function updateDisplay() {
+            document.getElementById('watched-ads').textContent = watchedAdsCount;
+            document.getElementById('earned-points').textContent = earnedPoints.toFixed(2);
+            const progress = (watchedAdsCount % 10) * 10;
+            document.getElementById('ads-progress').textContent = `${progress}%`;
+        }
+
+        // Load saved data
+        if (localStorage.getItem('watchedAdsCount')) {
+            watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount'));
+            earnedPoints = parseFloat(localStorage.getItem('earnedPoints'));
+            updateDisplay();
+        }
     </script>
 </body>
 </html>
