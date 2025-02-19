@@ -3,24 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mimi App</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Mimi App - Ads Enabled</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Mimi App</h1>
-        <p>Welcome to the Telegram Mimi App</p>
-        
-        <div id="scoreboard">
-            <h2>Scoreboard</h2>
-            <ul id="userList"></ul>
-        </div>
+    <h1>Mimi App</h1>
+    <p>Welcome to the Telegram Mimi App</p>
 
-        <!-- এখানে Monetag বা অন্য JS Ads SDK যুক্ত করো -->
-        <script async src="<script src='//whephiwums.com/vignette.min.js' data-zone='8975809' data-sdk='show_8975809'></script>"></script>
+    <h2>Scoreboard</h2>
+    <ul>
+        <li>User1: 100 points</li>
+        <li>User2: 200 points</li>
+        <li>User3: 150 points</li>
+    </ul>
 
-    </div>
+    <!-- Ads Trigger Button -->
+    <button onclick="showAd()">Show Ads</button>
 
-    <script src="script.js"></script>
+    <script>
+        function showAd() {
+            var adScript = document.createElement("script");
+            adScript.src = "//whephiwums.com/vignette.min.js";
+            adScript.setAttribute("data-zone", "8975809");
+            adScript.setAttribute("data-sdk", "show_8975809");
+            document.body.appendChild(adScript);
+            alert("Ads Loaded! Wait for it to appear.");
+        }
+    </script>
 </body>
 </html>
