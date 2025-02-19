@@ -3,36 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Mimi App - Ad Reward System</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Mimi App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Telegram Mimi Ad System</h1>
-        <div class="developer" onclick="window.location.href='https://t.me/YOUR_TELEGRAM'">Developer: @Naimur</div>
-
-        <!-- User Info -->
-        <div class="stats">
-            <p>👤 Username: <span id="user-name">@exampleUser</span></p>
-            <p>🎥 Watched Ads: <span id="watched-ads">0</span></p>
-            <p>💰 Earned Points: <span id="earned-points">0</span></p>
+        <h1>Mimi App</h1>
+        <p>Welcome to the Telegram Mimi App</p>
+        
+        <div id="scoreboard">
+            <h2>Scoreboard</h2>
+            <ul id="userList"></ul>
         </div>
 
-        <!-- Progress Circle -->
-        <div class="progress-circle">
-            <span id="ads-progress">0%</span>
-        </div>
+        <!-- এখানে Monetag বা অন্য JS Ads SDK যুক্ত করো -->
+        <script async src="<script src='//whephiwums.com/vignette.min.js' data-zone='8975809' data-sdk='show_8975809'></script>"></script>
 
-        <!-- Buttons -->
-        <div class="buttons">
-            <button class="watch-ad" onclick="watchAd()">Watch Ad</button>
-            <button class="auto-ad" onclick="startAutoAds()">Auto Ads</button>
-            <button class="stop-auto" onclick="stopAutoAds()">Stop Auto Ads</button>
-            <button class="withdraw" onclick="showWithdrawForm()">Withdraw</button>
-        </div>
-
-        <!-- Monetag Ads Section -->
-        <div id="monetag-ad"></div>
     </div>
 
     <script src="script.js"></script>
