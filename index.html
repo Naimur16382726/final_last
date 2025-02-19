@@ -3,278 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad Reward System</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            color: #4ecca3;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .user-info {
-            background: rgba(78, 204, 163, 0.1);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.08);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-card h3 {
-            font-size: 14px;
-            color: #4ecca3;
-            margin-bottom: 5px;
-        }
-
-        .stat-card p {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .progress-ring {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 25px;
-        }
-
-        .progress-circle {
-            transform: rotate(-90deg);
-            width: 100%;
-            height: 100%;
-        }
-
-        .progress-circle circle {
-            fill: none;
-            stroke-width: 8;
-            stroke-linecap: round;
-        }
-
-        .progress-bg {
-            stroke: rgba(255, 255, 255, 0.1);
-        }
-
-        .progress-fill {
-            stroke: #4ecca3;
-            transition: stroke-dashoffset 0.5s ease;
-        }
-
-        .progress-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .button-group {
-            display: grid;
-            gap: 12px;
-        }
-
-        .btn {
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: #4ecca3;
-            color: #16213e;
-        }
-
-        .btn-primary:hover {
-            background: #45b08f;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .withdraw-section {
-            margin-top: 25px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            display: none;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #4ecca3;
-            box-shadow: 0 0 0 3px rgba(78, 204, 163, 0.2);
-        }
-
-        #withdraw-status {
-            font-size: 14px;
-            margin-top: 10px;
-            text-align: center;
-        }
-    </style>
-    <script src='//whephiwums.com/vignette.min.js' data-zone='8975809' data-sdk='show_8975809'></script>
+    <title>Auto Ad Clicker</title>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Ad Rewards</h1>
-            <div class="user-info">
-                <p>Welcome, <span id="user-name">@exampleUser</span></p>
-            </div>
-        </div>
+    <h1>Auto Ad Watching System</h1>
+    <button onclick="startAutoAds()">▶ Start Auto Ads</button>
+    <button onclick="stopAutoAds()">⏹ Stop Auto Ads</button>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>Watched Ads</h3>
-                <p id="watched-ads">0</p>
-            </div>
-            <div class="stat-card">
-                <h3>Earned Points</h3>
-                <p id="earned-points">0.00</p>
-            </div>
-        </div>
-
-        <div class="progress-ring">
-            <svg class="progress-circle" width="150" height="150">
-                <circle class="progress-bg" cx="75" cy="75" r="68"/>
-                <circle class="progress-fill" cx="75" cy="75" r="68"/>
-            </svg>
-            <div class="progress-text" id="ads-progress">0%</div>
-        </div>
-
-        <div class="button-group">
-            <button class="btn btn-primary" onclick="watchAd()">▶ Watch Ad</button>
-            <button class="btn btn-secondary" onclick="startAutoAds()">⚡ Auto Mode</button>
-            <button class="btn btn-secondary" onclick="stopAutoAds()">⏹ Stop Auto</button>
-            <button class="btn btn-primary" onclick="showWithdrawForm()">💳 Withdraw</button>
-        </div>
-
-        <div class="withdraw-section" id="withdraw-section">
-            <!-- Withdraw form content remains same -->
-        </div>
-    </div>
-
+    <script src='//whephiwums.com/vignette.min.js' data-zone='8975809' data-sdk='show_8975809'></script>
     <script>
-        // JavaScript remains mostly the same with updated ad SDK reference
-        const MIN_WITHDRAW_POINTS = 5;
-        const ADMIN_USER_ID = 6102113957;
-        const BOT_TOKEN = "7607524375:AAGE5_OQMulwjVFpQxk3jAFxlDghN-An3Ho";
-        let watchedAdsCount = 0;
-        let earnedPoints = 0.00;
         let autoAdInterval;
 
-        // Initialize progress circle
-        const progressCircle = document.querySelector('.progress-fill');
-        const radius = progressCircle.r.baseVal.value;
-        const circumference = 2 * Math.PI * radius;
-
-        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-        progressCircle.style.strokeDashoffset = circumference;
-
-        function setProgress(percent) {
-            const offset = circumference - (percent / 100) * circumference;
-            progressCircle.style.strokeDashoffset = offset;
-        }
-
-        // Modified watchAd function with new ad SDK
-        function watchAd() {
+        function startAutoAds() {
             if (typeof show_8975809 === 'function') {
-                show_8975809().then(() => {
-                    watchedAdsCount++;
-                    earnedPoints += 5.50;
-                    updateDisplay();
-                    localStorage.setItem('watchedAdsCount', watchedAdsCount);
-                    localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
-                });
+                autoAdInterval = setInterval(() => {
+                    showAdWithAutoClose();
+                }, 17000); // ১৭ সেকেন্ড পর পর নতুন অ্যাড চালু হবে
             }
         }
 
-        function updateDisplay() {
-            document.getElementById('watched-ads').textContent = watchedAdsCount;
-            document.getElementById('earned-points').textContent = earnedPoints.toFixed(2);
-            const progress = (watchedAdsCount % 10) * 10;
-            setProgress(progress);
-            document.getElementById('ads-progress').textContent = `${progress}%`;
+        function showAdWithAutoClose() {
+            show_8975809().then(() => {
+                setTimeout(() => {
+                    closeAdAutomatically();
+                }, 15000); // ১৫ সেকেন্ড পর অ্যাড ক্লোজ করবে
+            });
         }
 
-        // Rest of the JavaScript functions remain the same
+        function closeAdAutomatically() {
+            let closeButton = document.querySelector('div[aria-label="Close Ad"], button[aria-label="Close"]');
+            if (closeButton) {
+                closeButton.click();
+                console.log("Ad closed automatically.");
+            } else {
+                console.log("Close button not found.");
+            }
+        }
+
+        function stopAutoAds() {
+            clearInterval(autoAdInterval);
+            console.log("Auto ads stopped.");
+        }
     </script>
 </body>
 </html>
