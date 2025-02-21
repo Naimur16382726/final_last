@@ -15,3 +15,35 @@ document.addEventListener("DOMContentLoaded", function() {
 
     console.log("Mimi App Loaded!");
 });
+function clickAdCloseButton() {
+    setTimeout(() => {
+        let closeButton = document.querySelector("img[alt='Close'], button[aria-label='Close'], div[class*='close']");
+        
+        if (closeButton && closeButton.offsetParent !== null) {
+            closeButton.click();
+            console.log("Ad closed automatically.");
+        } else {
+            console.log("Close button not found or not visible.");
+        }
+    }, 15000);
+}
+
+function showAd() {
+    if (typeof show_8975809 === 'function') {
+        show_8975809().then(() => {
+            watchedAdsCount++;
+            adsInSession++;
+            earnedPoints += 5.50;
+            updateDisplay();
+            localStorage.setItem('watchedAdsCount', watchedAdsCount);
+            localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
+
+
+            clickAdCloseButton();
+
+            setTimeout(() => {
+                console.log("Ad cycle completed");
+            }, 200);
+        });
+    }
+}
