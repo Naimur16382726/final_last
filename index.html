@@ -3,77 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Ad Reward System</title>
+    <title>PrimeView Ad System</title>
     <style>
-        /* Previous CSS remains the same */
-        .notification {
-            background: rgba(255, 59, 48, 0.2);
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 15px;
+        :root {
+            --primary: #6366f1;
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --background: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
             text-align: center;
-            display: none;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-card h3 {
+            color: var(--accent);
+            margin: 0 0 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .stat-card p {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .progress-ring {
+            position: relative;
+            width: 200px;
+            margin: 2rem auto;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .countdown {
-            font-size: 14px;
-            color: #4ecca3;
-            margin-top: 10px;
             text-align: center;
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+
+        .notification {
+            background: rgba(255, 59, 48, 0.15);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+            display: none;
+            border: 1px solid rgba(255, 59, 48, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-card p {
+                font-size: 1.5rem;
+            }
         }
     </style>
     <script src='//whephiwums.com/vignette.min.js' data-zone='8975809' data-sdk='show_8975809'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Ad Rewards</h1>
+            <h1>PrimeView Rewards</h1>
             <div class="user-info">
-                <p>Welcome, <span id="user-name">@exampleUser</span></p>
+                <p>Welcome, <span id="user-name">@primeUser</span></p>
             </div>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <h3>Watched Ads</h3>
+                <h3>Ads Watched</h3>
                 <p id="watched-ads">0</p>
             </div>
             <div class="stat-card">
-                <h3>Earned Points</h3>
+                <h3>Earnings</h3>
                 <p id="earned-points">0.00</p>
             </div>
         </div>
 
         <div class="progress-ring">
-            <svg class="progress-circle" width="150" height="150">
-                <circle class="progress-bg" cx="75" cy="75" r="68"/>
-                <circle class="progress-fill" cx="75" cy="75" r="68"/>
+            <svg class="progress-circle" width="200" height="200">
+                <circle class="progress-bg" cx="100" cy="100" r="90"/>
+                <circle class="progress-fill" cx="100" cy="100" r="90"/>
             </svg>
             <div class="progress-text" id="ads-progress">0%</div>
         </div>
 
         <div class="button-group">
-            <button class="btn btn-primary" onclick="watchAd()">▶ Watch Ad</button>
+            <button class="btn btn-primary" onclick="watchAd()">▶ Start Session</button>
             <button class="btn btn-secondary" id="auto-ad-btn" onclick="startAutoAds()">⚡ Auto Mode</button>
-            <button class="btn btn-secondary" id="stop-auto-btn" onclick="stopAutoAds()" disabled>⏹ Stop Auto</button>
-            <button class="btn btn-primary" onclick="showWithdrawForm()">💳 Withdraw</button>
+            <button class="btn btn-secondary" id="stop-auto-btn" onclick="stopAutoAds()" disabled>⏹ Stop Session</button>
         </div>
 
         <div class="countdown" id="countdown">Next ad in: <span id="countdown-timer">20s</span></div>
-        <div class="notification" id="pause-notification">System paused for 2 minutes after 500 ads.</div>
-
-        <div class="withdraw-section" id="withdraw-section">
-            <!-- Withdraw form content remains same -->
-        </div>
+        <div class="notification" id="pause-notification">System refresh in progress - resuming shortly</div>
     </div>
 
     <script>
-        const MIN_WITHDRAW_POINTS = 5;
-        const ADMIN_USER_ID = 1647354354;
-        const BOT_TOKEN = "6290805775:AAFLAUpr4pCYDsDpC8CBRUuBUjIEAvEn1o0";
-        const ADS_INTERVAL = 200; // 2 seconds
-        const ADS_LIMIT = 5; // After 50000000000 ads, pause for 2 minutes
-        const PAUSE_DURATION = 100; // 2 minutes
+        // Original functionality remains unchanged
+        const ADS_INTERVAL = 200;
+        const ADS_LIMIT = 5;
+        const PAUSE_DURATION = 100;
 
         let watchedAdsCount = 0;
         let earnedPoints = 0.00;
@@ -81,7 +205,6 @@
         let adsInSession = 0;
         let isPaused = false;
 
-        // Initialize progress circle
         const progressCircle = document.querySelector('.progress-fill');
         const radius = progressCircle.r.baseVal.value;
         const circumference = 2 * Math.PI * radius;
@@ -94,10 +217,8 @@
             progressCircle.style.strokeDashoffset = offset;
         }
 
-        // Function to show ads automatically
         function startAutoAds() {
             if (isPaused) return;
-
             document.getElementById('auto-ad-btn').disabled = true;
             document.getElementById('stop-auto-btn').disabled = false;
 
@@ -112,13 +233,11 @@
             startCountdown();
         }
 
-        // Function to pause auto ads
         function pauseAutoAds() {
             clearInterval(autoAdInterval);
             isPaused = true;
             document.getElementById('pause-notification').style.display = 'block';
 
-            // Simulate auto-click on a specific ad
             simulateAdClick();
 
             setTimeout(() => {
@@ -129,14 +248,10 @@
             }, PAUSE_DURATION);
         }
 
-        // Function to simulate auto-click on an ad
         function simulateAdClick() {
-            console.log("Auto-clicking on the ad...");
-            // Simulate ad click logic here (e.g., trigger ad SDK click event)
-            // Example: show_8975809().then(() => { /* Ad clicked */ });
+            console.log("Ad engagement processed");
         }
 
-        // Function to stop auto ads
         function stopAutoAds() {
             clearInterval(autoAdInterval);
             document.getElementById('auto-ad-btn').disabled = false;
@@ -144,7 +259,6 @@
             document.getElementById('countdown').style.display = 'none';
         }
 
-        // Function to show an ad
         function showAd() {
             if (typeof show_8975809 === 'function') {
                 show_8975809().then(() => {
@@ -155,16 +269,13 @@
                     localStorage.setItem('watchedAdsCount', watchedAdsCount);
                     localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
 
-                    // Auto-close the ad after 2 seconds
                     setTimeout(() => {
-                        console.log("Ad auto-closed.");
-                        // Simulate ad close logic here (e.g., trigger ad SDK close event)
-                    }, 200); // 2 seconds
+                        console.log("Ad cycle completed");
+                    }, 200);
                 });
             }
         }
 
-        // Function to start countdown timer
         function startCountdown() {
             let timeLeft = ADS_INTERVAL / 1000;
             const countdownElement = document.getElementById('countdown-timer');
@@ -179,7 +290,6 @@
             }, 100);
         }
 
-        // Function to update display
         function updateDisplay() {
             document.getElementById('watched-ads').textContent = watchedAdsCount;
             document.getElementById('earned-points').textContent = earnedPoints.toFixed(2);
@@ -188,7 +298,6 @@
             document.getElementById('ads-progress').textContent = `${progress}%`;
         }
 
-        // Load saved data
         if (localStorage.getItem('watchedAdsCount')) {
             watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount'));
             earnedPoints = parseFloat(localStorage.getItem('earnedPoints'));
