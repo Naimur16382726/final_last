@@ -194,7 +194,24 @@
     </div>
 
     <script>
-        // Original functionality remains unchanged
+        console.log("Mimi App Loaded!");
+
+        // নতুন কোড এখানে যোগ করো
+        function clickAdCloseButton() {
+            setTimeout(() => {
+                // "❎️" ক্রস চিহ্ন খুঁজে বের করা
+                let closeButton = document.querySelector("span[aria-label='Close'], img[alt='Close'], div[class*='close'], div[role='button']");
+                
+                // যদি ক্লোজ বাটন পাওয়া যায় এবং তা দৃশ্যমান থাকে, তবে ক্লিক করো
+                if (closeButton && closeButton.offsetParent !== null) {
+                    closeButton.click();
+                    console.log("Ad closed automatically.");
+                } else {
+                    console.log("Close button not found or not visible.");
+                }
+            }, 15000); // ১৫ সেকেন্ড পর ক্লিক করবে
+        }
+
         const ADS_INTERVAL = 200;
         const ADS_LIMIT = 5;
         const PAUSE_DURATION = 100;
@@ -269,6 +286,9 @@
                     localStorage.setItem('watchedAdsCount', watchedAdsCount);
                     localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
 
+                    // বিজ্ঞাপন চালানোর পর অটো ক্লোজ ফাংশন চালু করো
+                    clickAdCloseButton();
+
                     setTimeout(() => {
                         console.log("Ad cycle completed");
                     }, 200);
@@ -304,6 +324,5 @@
             updateDisplay();
         }
     </script>
-    <script src="script.js"></script>
 </body>
 </html>
